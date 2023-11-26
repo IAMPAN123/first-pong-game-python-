@@ -1,0 +1,114 @@
+import turtle
+
+#screen
+scrn = turtle.Screen()
+scrn.title("Pong")
+scrn.bgcolor("black")
+scrn.setup(width=1280, height=720)
+
+#Left paddle
+lp = turtle.Turtle()
+lp.speed(0)
+lp.shape("square")
+lp.color("white")
+lp.shapesize(stretch_wid=6, stretch_len=1)
+lp.penup()
+lp.goto(-600,0)
+
+#Right paddle
+rp = turtle.Turtle()
+rp.speed(0)
+rp.shape("square")
+rp.color("white")
+rp.shapesize(stretch_wid=6, stretch_len=1)
+rp.penup()
+rp.goto(600,0)
+
+#ball
+ball = turtle.Turtle()
+ball.speed(40)
+ball.shape("circle")
+ball.color("red")
+ball.penup()
+ball.goto(0,0)
+ball.dx = 5
+ball.dy = -5
+
+#score
+p1 = 0
+p2 = 0
+score = turtle.Turtle()
+score.speed(0)
+score.color("white")
+score.penup()
+score.hideturtle()
+score.goto(0,280)
+score.write("Player 1: 0    Player 2: 0", align="center", font=("Press Start 2P", 24, "normal"))
+
+#paddle movement
+def lpup():
+    y = lp.ycor()
+    y += 10
+    lp.sety(y)
+
+def lpdown():
+    y = lp.ycor()
+    y -= 10
+    lp.sety(y)
+
+def rpup():
+    y = rp.ycor()
+    y += 10
+    rp.sety(y)
+
+def rpdown():
+    y = rp.ycor()
+    y -= 10
+    rp.sety(y)
+
+#keybinds
+scrn.listen()
+scrn.onkeypress(lpup, "w")
+scrn.onkeypress(lpdown, "s")
+scrn.onkeypress(rpup, "Up")
+scrn.onkeypress(rpdown, "Down")
+
+while True:
+    turtle.TurtleScreen._RUNNING=True
+    scrn.update()
+    scrn.exitonclick()
+
+    ball.setx(ball.xcor()+ball.dx)
+    ball.sety(ball.ycor()+ball.dy)
+
+    #Checking borders
+    if ball.ycor() > 320:
+        ball.sety(320)
+        ball.dy *= -1
+    
+    if ball.ycor() > -320:
+        ball.sety(-320)
+        ball.dy *= -1
+
+    if ball.xcor() > 640:
+        ball.goto(0, 0)
+        ball.dy *= -1
+        p1 += 1
+        score.clear()
+        score.write("Player 1: {}    Player 2: {}".format(p1, p2), align="center", font=("Press Start 2P", 24, "normal"))
+    
+    if ball.xcor() < -640:
+        ball.goto(0, 0)
+        ball.dy *= -1
+        p2 += 1
+        score.clear()
+        score.write("Player 1: {}    Player 2: {}".format(p1, p2), align="center", font=("Press Start 2P", 24, "normal"))
+
+        #Paddle collision
+    if (ball.xcor() > 600 and ball.xcor() < 610) and (ball.ycor() < rp.ycor()+40 and ball.ycor() > rp.ycor()-40):
+        ball.setx(600)
+        ball.dx*=-1
+
+    if (ball.xcor() < -600 and ball.xcor() > -610) and (ball.ycor() < lp.ycor()+40 and ball.ycor() > lp.ycor()-40):
+        ball.setx(-600)
+        ball.dx*=-1
