@@ -30,7 +30,7 @@ ball.speed(40)
 ball.shape("circle")
 ball.color("red")
 ball.penup()
-ball.goto(0,0)
+ball.goto(0, 0)
 ball.dx = 5
 ball.dy = -5
 
@@ -74,10 +74,8 @@ scrn.onkeypress(rpup, "Up")
 scrn.onkeypress(rpdown, "Down")
 
 while True:
-    turtle.TurtleScreen._RUNNING=True
     scrn.update()
-    scrn.exitonclick()
-
+    
     ball.setx(ball.xcor()+ball.dx)
     ball.sety(ball.ycor()+ball.dy)
 
@@ -86,7 +84,7 @@ while True:
         ball.sety(320)
         ball.dy *= -1
     
-    if ball.ycor() > -320:
+    if ball.ycor() < -320:
         ball.sety(-320)
         ball.dy *= -1
 
@@ -105,10 +103,10 @@ while True:
         score.write("Player 1: {}    Player 2: {}".format(p1, p2), align="center", font=("Press Start 2P", 24, "normal"))
 
         #Paddle collision
-    if (ball.xcor() > 600 and ball.xcor() < 610) and (ball.ycor() < rp.ycor()+40 and ball.ycor() > rp.ycor()-40):
-        ball.setx(600)
+    if (ball.xcor() > 580 and ball.xcor() < 590) and (ball.ycor() < rp.ycor()+60 and ball.ycor() > rp.ycor()-60):
+        ball.setx(580)
         ball.dx*=-1
 
-    if (ball.xcor() < -600 and ball.xcor() > -610) and (ball.ycor() < lp.ycor()+40 and ball.ycor() > lp.ycor()-40):
-        ball.setx(-600)
+    if (ball.xcor() < -580 and ball.xcor() > -590) and (ball.ycor() < lp.ycor()+60 and ball.ycor() > lp.ycor()-60):
+        ball.setx(-580)
         ball.dx*=-1
